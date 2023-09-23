@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - static:/app/static
+  proxy:
+    build:
+      context: ./docker/proxy
+    restart: always
+    depends_on:
+      - app
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - certbot-web:/vol/www
+      - proxy-dhparams:/vol/proxy
+      - certbot-certs:/etc/letsencrypt
+      - static:/vol/static
+    environment:
+      - DOMAIN=${DOMAIN}
+
+  certbot:
+    build:
+      context: ./docker/certbot
+    command: echo "Skipping..."
+    environment:
+      - EMAIL=${ACME_DEFAULT_EMAIL}
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - certbot-web:/vol/www
+      - certbot-certs:/etc/letsencrypt/
+    depends_on:
+      - proxy
+
+  redis:
+    image: redis:alpine
+    restart: always
+
+  celery_worker:
+    build:
+      context: ./
+    command: bash -c "cd /app && celery -A promptify_api worker -l info -c 8"
+    container_name: celery_worker
+    volumes:
+      - .:/usr/src/app
+    env_file:
+      - ./.env
+    depends_on:
+      - app
+      - redis
+    restart: always
+
+volumes:
+  certbot-web:
+  proxy-dhparams:
+  certbot-certs:
+  static:
