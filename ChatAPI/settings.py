@@ -196,23 +196,6 @@ CACHES = {
 # REDIS_PASSWORD = config("REDIS_PASSWORD", "")
 # REDIS_HOST = config("REDIS_HOST")
 # REDIS_PORT = config("REDIS_PORT", 6379)
-# AI_ENGINE_URL = config("AI_ENGINE_URL")
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-# CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
-# CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}"
-
-# RQ_QUEUES = {
-#     "default": {
-#         "HOST": REDIS_HOST,
-#         "PORT": REDIS_PORT,
-#         "DB": 0,
-#         "USERNAME": REDIS_USERNAME,
-#         "PASSWORD": REDIS_PASSWORD,
-#         "DEFAULT_TIMEOUT": 360,
-#     }
-# }
-
-# CELERY_BROKER_URL = os.environ['REDIS_URL']
-# CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
