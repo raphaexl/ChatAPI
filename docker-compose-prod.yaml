@@ -46,7 +46,7 @@ services:
   celery_worker:
     build:
       context: ./
-    command: bash -c "cd /app && celery -A promptify_api worker -l info -c 8"
+    command: bash -c "cd /app && celery -A ChatAPI worker -l info -c 8"
     container_name: celery_worker
     volumes:
       - .:/usr/src/app

@@ -184,7 +184,7 @@ CHANNEL_LAYERS = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.environ['REDIS_URL'],  # Here we have Redis DSN (for ex. redis://localhost:6379/1)
+        "LOCATION": config('REDIS_URL'),  # Here we have Redis DSN (for ex. redis://localhost:6379/1)
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "MAX_ENTRIES": 1000  # Increase max cache entries to 1k (from 300)
@@ -192,10 +192,10 @@ CACHES = {
     }
 }
 
-REDIS_USERNAME = config("REDIS_USERNAME", "")
-REDIS_PASSWORD = config("REDIS_PASSWORD", "")
-REDIS_HOST = config("REDIS_HOST")
-REDIS_PORT = config("REDIS_PORT", 6379)
+# REDIS_USERNAME = config("REDIS_USERNAME", "")
+# REDIS_PASSWORD = config("REDIS_PASSWORD", "")
+# REDIS_HOST = config("REDIS_HOST")
+# REDIS_PORT = config("REDIS_PORT", 6379)
 # AI_ENGINE_URL = config("AI_ENGINE_URL")
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
